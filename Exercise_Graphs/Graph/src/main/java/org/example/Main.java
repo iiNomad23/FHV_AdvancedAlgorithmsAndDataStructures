@@ -24,6 +24,8 @@ public class Main {
         System.out.println();
         struct.traversal(Traversal.IterativeDepthSearch);
         System.out.println();
-        struct.traversal(Traversal.IterativeBreadth);
+        struct.traversal(Traversal.IterativeBreadthSearch);
+        System.out.println();
+        struct.traversal(Traversal.EulerPathSearch);
     }
 }

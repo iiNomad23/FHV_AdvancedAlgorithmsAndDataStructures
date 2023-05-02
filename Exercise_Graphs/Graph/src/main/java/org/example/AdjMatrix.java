@@ -30,23 +30,77 @@ public class AdjMatrix extends AdjStruct {
     public void traversal(Traversal traversalMethod) {
         closedListVertices = new ArrayList<>();
 
+        Vertex<Integer> vertex = vertices.get(0);
+
         switch (traversalMethod) {
             case RecursiveDepthSearch:
-                recursiveDepthSearch(vertices.get(0));
+                recursiveDepthSearch(vertex);
                 break;
 
             case IterativeDepthSearch:
-                iterativeDepthSearch(vertices.get(0));
+                iterativeDepthSearch(vertex);
                 break;
 
-            case IterativeBreadth:
-                iterativeBreadthSearch(vertices.get(0));
+            case IterativeBreadthSearch:
+                iterativeBreadthSearch(vertex);
+                break;
+
+            case EulerPathSearch:
+                if (eulerPathExists(vertex)) {
+                    System.out.print("Euler path does exist!");
+                    eulerPathSearch(vertex);
+                } else {
+                    System.out.print("No euler path :(");
+                    return;
+                }
                 break;
         }
 
         for (Vertex<Integer> neighborVertex : closedListVertices) {
             System.out.println(neighborVertex.getName());
         }
+    }
+
+    private void eulerPathSearch(Vertex<Integer> vertex) {
+        closedListVertices = new ArrayList<>();
+
+        // TODO
+    }
+
+    private boolean eulerPathExists(Vertex<Integer> vertex) {
+        boolean eulerPathExists = true;
+        int oddEdges = 0;
+
+        Stack<Vertex<Integer>> openListVerticesStack = new Stack<>();
+        openListVerticesStack.add(vertex);
+
+        while (!openListVerticesStack.isEmpty()) {
+            Vertex<Integer> currentVertex = openListVerticesStack.pop();
+
+            if (!closedListVertices.contains(currentVertex)) {
+                closedListVertices.add(currentVertex);
+
+                List<Vertex<Integer>> vertexList = getNeighbors(currentVertex);
+
+                if (vertexList.size() % 2 == 0) {
+                    eulerPathExists = false;
+                } else {
+                    oddEdges += 1;
+
+                    if (oddEdges > 2) {
+                        break;
+                    }
+                }
+
+                openListVerticesStack.addAll(getNeighbors(currentVertex));
+            }
+        }
+
+        if (!eulerPathExists) {
+            eulerPathExists = oddEdges <= 2;
+        }
+
+        return eulerPathExists;
     }
 
     private void recursiveDepthSearch(Vertex<Integer> vertex) {

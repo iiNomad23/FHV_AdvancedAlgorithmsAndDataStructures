@@ -32,6 +32,10 @@ public class Graph extends AdjStruct {
         while (myReader.hasNextLine()) {
             String data = myReader.nextLine();
 
+            if (data.length() == 0 || data.charAt(0) == '#') {
+                continue;
+            }
+
             if (data.charAt(0) == 'V') {
                 data = data.substring(3, data.length() - 1);
                 String[] vertexStrings = data.split(",");
