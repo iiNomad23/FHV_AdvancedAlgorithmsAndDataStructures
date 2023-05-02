@@ -55,13 +55,13 @@ public class AdjMatrix extends AdjStruct {
             int vertexIndex = vertices.indexOf(vertex);
 
             System.out.print("  " + vertex.getName() + "  |");
-            edges.get(vertexIndex).forEach(entry -> {
-                if (entry == null) {
+            edges.get(vertexIndex).forEach(edge -> {
+                if (edge == null) {
                     System.out.print(" -x- |");
-                } else if (entry.getWeight() < 10) {
-                    System.out.print("  " + entry.getWeight() + "|");
+                } else if (edge.getWeight() < 10) {
+                    System.out.print("  " + edge.getWeight() + "|");
                 } else {
-                    System.out.print(" " + entry.getWeight() + "|");
+                    System.out.print(" " + edge.getWeight() + "|");
                 }
             });
             System.out.println();
