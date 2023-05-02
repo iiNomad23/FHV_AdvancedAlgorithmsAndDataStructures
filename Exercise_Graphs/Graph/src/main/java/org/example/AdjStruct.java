@@ -8,4 +8,8 @@ public abstract class AdjStruct {
     public List<Vertex<Integer>> getNeighbors(Vertex<Integer> vertex) throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("[AdjStruct] getNeighbors not implemented!");
     }
+
+    public void print() throws ExecutionControl.NotImplementedException {
+        throw new ExecutionControl.NotImplementedException("[AdjStruct] print not implemented!");
+    }
 }

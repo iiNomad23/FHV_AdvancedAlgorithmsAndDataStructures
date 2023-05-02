@@ -17,5 +17,7 @@ public class Main {
         for (Vertex<Integer> neighbor : neighbors) {
             System.out.println(neighbor.getName());
         }
+
+        struct.print();
     }
 }

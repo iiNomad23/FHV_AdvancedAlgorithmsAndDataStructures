@@ -58,4 +58,8 @@ public class Graph extends AdjStruct {
     public List<Vertex<Integer>> getNeighbors(Vertex<Integer> vertex) throws ExecutionControl.NotImplementedException {
         return adjStruct.getNeighbors(vertex);
     }
+
+    public void print() throws ExecutionControl.NotImplementedException {
+        adjStruct.print();
+    }
 }

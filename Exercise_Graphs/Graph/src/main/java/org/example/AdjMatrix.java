@@ -42,4 +42,30 @@ public class AdjMatrix extends AdjStruct {
 
         return neighbors;
     }
+
+    @Override
+    public void print() {
+        System.out.println("****************************************************************+");
+        System.out.print(" *** |");
+        vertices.forEach(vertex -> {
+            System.out.print("  " + vertex.getName() + "  |");
+        });
+        System.out.println();
+        vertices.forEach(vertex -> {
+            int vertexIndex = vertices.indexOf(vertex);
+
+            System.out.print("  " + vertex.getName() + "  |");
+            edges.get(vertexIndex).forEach(entry -> {
+                if (entry == null) {
+                    System.out.print(" -x- |");
+                } else if (entry.getWeight() < 10) {
+                    System.out.print("  " + entry.getWeight() + "|");
+                } else {
+                    System.out.print(" " + entry.getWeight() + "|");
+                }
+            });
+            System.out.println();
+        });
+        System.out.println("****************************************************************+");
+    }
 }
