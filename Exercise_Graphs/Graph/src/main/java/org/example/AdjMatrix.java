@@ -8,8 +8,6 @@ public class AdjMatrix extends AdjStruct {
     private final List<Vertex<Integer>> vertices;
     private final List<List<Edge>> edges;
     private List<Vertex<Integer>> closedListVertices;
-    private Stack<Vertex<Integer>> openListVerticesStack;
-    private List<Vertex<Integer>> openListVerticesHeap;
 
     public AdjMatrix(List<Vertex<Integer>> vertices, List<Triplet<String, String, String>> edges) {
         this.vertices = vertices;
@@ -63,7 +61,7 @@ public class AdjMatrix extends AdjStruct {
     }
 
     private void iterativeDepthSearch(Vertex<Integer> vertex) {
-        openListVerticesStack = new Stack<>();
+        Stack<Vertex<Integer>> openListVerticesStack = new Stack<>();
         openListVerticesStack.add(vertex);
 
         while (!openListVerticesStack.isEmpty()) {
@@ -77,7 +75,7 @@ public class AdjMatrix extends AdjStruct {
     }
 
     private void iterativeBreadthSearch(Vertex<Integer> vertex) {
-        openListVerticesHeap = new ArrayList<>();
+        List<Vertex<Integer>> openListVerticesHeap = new ArrayList<>();
         openListVerticesHeap.add(vertex);
 
         while (!openListVerticesHeap.isEmpty()) {
