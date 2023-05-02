@@ -10,6 +10,7 @@ import java.util.List;
 public class AdjMatrix extends AdjStruct {
     private final List<Vertex<Integer>> vertices;
     private final List<List<Edge>> edges;
+    private final List<Vertex<Integer>> closedListVertices = new ArrayList<>();
 
     public AdjMatrix(List<Vertex<Integer>> vertices, List<Triplet<String, String, String>> edges) {
         this.vertices = vertices;
@@ -27,6 +28,44 @@ public class AdjMatrix extends AdjStruct {
 
             this.edges.get(rowIndex).set(colIndex, new Edge(Float.parseFloat(edge.getValue2())));
         }
+    }
+
+    public void traversal(Traversal traversalMethod) {
+        switch (traversalMethod) {
+            case RecursiveDepthSearch:
+                recursiveDepthSearch(vertices.get(0));
+                for (Vertex<Integer> neighborVertex: closedListVertices) {
+                    System.out.println(neighborVertex.getName());
+                }
+                break;
+
+            case IterativeDepthSearch:
+                iterativeDepthSearch();
+                break;
+
+            case IterativeBreadth:
+                iterativeBreadth();
+                break;
+        }
+    }
+
+    private void recursiveDepthSearch(Vertex<Integer> vertex) {
+        if (closedListVertices.contains(vertex)) {
+            return;
+        }
+
+        closedListVertices.add(vertex);
+        for (Vertex<Integer> neighborVertex: getNeighbors(vertex)) {
+            recursiveDepthSearch(neighborVertex);
+        }
+    }
+
+    private void iterativeDepthSearch() {
+
+    }
+
+    private void iterativeBreadth() {
+
     }
 
     @Override
@@ -47,9 +86,7 @@ public class AdjMatrix extends AdjStruct {
     public void print() {
         System.out.println("****************************************************************+");
         System.out.print(" *** |");
-        vertices.forEach(vertex -> {
-            System.out.print("  " + vertex.getName() + "  |");
-        });
+        vertices.forEach(vertex -> System.out.print("  " + vertex.getName() + "  |"));
         System.out.println();
         vertices.forEach(vertex -> {
             int vertexIndex = vertices.indexOf(vertex);

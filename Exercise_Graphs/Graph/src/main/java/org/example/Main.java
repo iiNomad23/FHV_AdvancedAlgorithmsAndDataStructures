@@ -19,5 +19,7 @@ public class Main {
         }
 
         struct.print();
+
+        struct.traversal(Traversal.RecursiveDepthSearch);
     }
 }

@@ -55,6 +55,10 @@ public class Graph extends AdjStruct {
         return new Graph(new AdjMatrix(vertices, triplets));
     }
 
+    public void traversal(Traversal traversalMethod) throws ExecutionControl.NotImplementedException {
+        adjStruct.traversal(traversalMethod);
+    }
+
     public List<Vertex<Integer>> getNeighbors(Vertex<Integer> vertex) throws ExecutionControl.NotImplementedException {
         return adjStruct.getNeighbors(vertex);
     }
