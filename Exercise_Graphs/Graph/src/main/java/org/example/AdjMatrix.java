@@ -2,16 +2,14 @@ package org.example;
 
 import org.javatuples.Triplet;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class AdjMatrix extends AdjStruct {
     private final List<Vertex<Integer>> vertices;
     private final List<List<Edge>> edges;
-    private final List<Vertex<Integer>> closedListVertices = new ArrayList<>();
-    private final List<Vertex<Integer>> openListVertices = new ArrayList<>();
+    private List<Vertex<Integer>> closedListVertices;
+    private Stack<Vertex<Integer>> openListVerticesStack;
+    private List<Vertex<Integer>> openListVerticesHeap;
 
     public AdjMatrix(List<Vertex<Integer>> vertices, List<Triplet<String, String, String>> edges) {
         this.vertices = vertices;
@@ -32,24 +30,24 @@ public class AdjMatrix extends AdjStruct {
     }
 
     public void traversal(Traversal traversalMethod) {
+        closedListVertices = new ArrayList<>();
+
         switch (traversalMethod) {
             case RecursiveDepthSearch:
                 recursiveDepthSearch(vertices.get(0));
-                for (Vertex<Integer> neighborVertex: closedListVertices) {
-                    System.out.println(neighborVertex.getName());
-                }
                 break;
 
             case IterativeDepthSearch:
                 iterativeDepthSearch(vertices.get(0));
-                for (Vertex<Integer> neighborVertex: closedListVertices) {
-                    System.out.println(neighborVertex.getName());
-                }
                 break;
 
             case IterativeBreadth:
-                iterativeBreadth();
+                iterativeBreadthSearch(vertices.get(0));
                 break;
+        }
+
+        for (Vertex<Integer> neighborVertex : closedListVertices) {
+            System.out.println(neighborVertex.getName());
         }
     }
 
@@ -59,26 +57,37 @@ public class AdjMatrix extends AdjStruct {
         }
 
         closedListVertices.add(vertex);
-        for (Vertex<Integer> neighborVertex: getNeighbors(vertex)) {
+        for (Vertex<Integer> neighborVertex : getNeighbors(vertex)) {
             recursiveDepthSearch(neighborVertex);
         }
     }
 
     private void iterativeDepthSearch(Vertex<Integer> vertex) {
-        openListVertices.add(vertex);
+        openListVerticesStack = new Stack<>();
+        openListVerticesStack.add(vertex);
 
-        while (!openListVertices.isEmpty()) {
-            Vertex<Integer> vertex1 = openListVertices.remove(0);
+        while (!openListVerticesStack.isEmpty()) {
+            Vertex<Integer> currentVertex = openListVerticesStack.pop();
 
-            if (!closedListVertices.contains(vertex1)) {
-                closedListVertices.add(vertex1);
-                openListVertices.addAll(getNeighbors(vertex));
+            if (!closedListVertices.contains(currentVertex)) {
+                closedListVertices.add(currentVertex);
+                openListVerticesStack.addAll(getNeighbors(currentVertex));
             }
         }
     }
 
-    private void iterativeBreadth() {
+    private void iterativeBreadthSearch(Vertex<Integer> vertex) {
+        openListVerticesHeap = new ArrayList<>();
+        openListVerticesHeap.add(vertex);
 
+        while (!openListVerticesHeap.isEmpty()) {
+            Vertex<Integer> currentVertex = openListVerticesHeap.remove(0);
+
+            if (!closedListVertices.contains(currentVertex)) {
+                closedListVertices.add(currentVertex);
+                openListVerticesHeap.addAll(getNeighbors(currentVertex));
+            }
+        }
     }
 
     @Override
