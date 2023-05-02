@@ -11,6 +11,7 @@ public class AdjMatrix extends AdjStruct {
     private final List<Vertex<Integer>> vertices;
     private final List<List<Edge>> edges;
     private final List<Vertex<Integer>> closedListVertices = new ArrayList<>();
+    private final List<Vertex<Integer>> openListVertices = new ArrayList<>();
 
     public AdjMatrix(List<Vertex<Integer>> vertices, List<Triplet<String, String, String>> edges) {
         this.vertices = vertices;
@@ -40,7 +41,10 @@ public class AdjMatrix extends AdjStruct {
                 break;
 
             case IterativeDepthSearch:
-                iterativeDepthSearch();
+                iterativeDepthSearch(vertices.get(0));
+                for (Vertex<Integer> neighborVertex: closedListVertices) {
+                    System.out.println(neighborVertex.getName());
+                }
                 break;
 
             case IterativeBreadth:
@@ -60,8 +64,17 @@ public class AdjMatrix extends AdjStruct {
         }
     }
 
-    private void iterativeDepthSearch() {
+    private void iterativeDepthSearch(Vertex<Integer> vertex) {
+        openListVertices.add(vertex);
 
+        while (!openListVertices.isEmpty()) {
+            Vertex<Integer> vertex1 = openListVertices.remove(0);
+
+            if (!closedListVertices.contains(vertex1)) {
+                closedListVertices.add(vertex1);
+                openListVertices.addAll(getNeighbors(vertex));
+            }
+        }
     }
 
     private void iterativeBreadth() {

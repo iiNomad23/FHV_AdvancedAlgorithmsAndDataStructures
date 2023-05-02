@@ -21,5 +21,9 @@ public class Main {
         struct.print();
 
         struct.traversal(Traversal.RecursiveDepthSearch);
+        System.out.println();
+        struct.traversal(Traversal.IterativeDepthSearch);
+        System.out.println();
+        struct.traversal(Traversal.IterativeBreadth);
     }
 }
