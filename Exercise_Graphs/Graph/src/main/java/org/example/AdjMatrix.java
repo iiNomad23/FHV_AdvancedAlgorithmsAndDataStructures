@@ -49,10 +49,10 @@ public class AdjMatrix extends AdjStruct {
 
             case EulerPathSearch:
                 if (eulerPathExists(vertex)) {
-                    System.out.print("Euler path does exist!");
+                    System.out.print("Euler path does exist!\n");
                     eulerPathSearch(vertex);
                 } else {
-                    System.out.print("No euler path :(");
+                    System.out.print("No euler path :(\n");
                     return;
                 }
                 break;
@@ -67,16 +67,17 @@ public class AdjMatrix extends AdjStruct {
         List<Edge> visitedEdges = new LinkedList<>();
 
         this.findEulerPathRecursive(vertex, visitedEdges);
+        System.out.println();
     }
 
-    private void findEulerPathRecursive(Vertex<Integer> currentVertex, List<Edge> visitedEdges){
-        if(visitedEdges.size() == (edgeCount/2)){
+    private void findEulerPathRecursive(Vertex<Integer> currentVertex, List<Edge> visitedEdges) {
+        if (visitedEdges.size() == (edgeCount / 2)) {
             System.out.println(visitedEdges);
             System.out.println("end");
             return;
         }
 
-        for (Edge edge: getEdges(currentVertex)) {
+        for (Edge edge : getEdges(currentVertex)) {
             if (!visitedEdges.contains(edge) && edge != null) {
                 visitedEdges.add(edge);
                 currentVertex = edge.getFrom().equals(currentVertex) ? edge.getTo() : edge.getFrom();
@@ -87,7 +88,7 @@ public class AdjMatrix extends AdjStruct {
         }
     }
 
-    private List<Edge> getEdges(Vertex<Integer> vertex){
+    private List<Edge> getEdges(Vertex<Integer> vertex) {
         return edges.get(vertices.indexOf(vertex));
     }
 

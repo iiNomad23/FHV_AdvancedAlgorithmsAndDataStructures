@@ -8,7 +8,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws ExecutionControl.NotImplementedException {
 
-        AdjStruct struct = Graph.create(new File("src/main/resources/matrix.txt"));
+        AdjStruct struct = Graph.create(new File("src/main/resources/nikolaushouse.txt"));
 
         Vertex<Integer> v = new Vertex<>("B", 0);
 
