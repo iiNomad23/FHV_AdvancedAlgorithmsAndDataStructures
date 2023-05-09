@@ -31,4 +31,9 @@ public class Vertex<T> {
     public int hashCode() {
         return Objects.hash(name, value);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

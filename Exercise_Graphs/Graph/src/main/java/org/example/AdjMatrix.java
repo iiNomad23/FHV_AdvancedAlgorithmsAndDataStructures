@@ -8,6 +8,7 @@ public class AdjMatrix extends AdjStruct {
     private final List<Vertex<Integer>> vertices;
     private final List<List<Edge>> edges;
     private List<Vertex<Integer>> closedListVertices;
+    private int edgeCount = 0;
 
     public AdjMatrix(List<Vertex<Integer>> vertices, List<Triplet<String, String, String>> edges) {
         this.vertices = vertices;
@@ -23,7 +24,8 @@ public class AdjMatrix extends AdjStruct {
             int rowIndex = vertices.indexOf(new Vertex<>(row, 0));
             int colIndex = vertices.indexOf(new Vertex<>(col, 0));
 
-            this.edges.get(rowIndex).set(colIndex, new Edge(Float.parseFloat(edge.getValue2())));
+            this.edges.get(rowIndex).set(colIndex, new Edge(Float.parseFloat(edge.getValue2()), new Vertex<>(row, 0), new Vertex<>(col, 0)));
+            edgeCount++;
         }
     }
 
@@ -62,9 +64,31 @@ public class AdjMatrix extends AdjStruct {
     }
 
     private void eulerPathSearch(Vertex<Integer> vertex) {
-        closedListVertices = new ArrayList<>();
+        List<Edge> visitedEdges = new LinkedList<>();
 
-        // TODO
+        this.findEulerPathRecursive(vertex, visitedEdges);
+    }
+
+    private void findEulerPathRecursive(Vertex<Integer> currentVertex, List<Edge> visitedEdges){
+        if(visitedEdges.size() == (edgeCount/2)){
+            System.out.println(visitedEdges);
+            System.out.println("end");
+            return;
+        }
+
+        for (Edge edge: getEdges(currentVertex)) {
+            if (!visitedEdges.contains(edge) && edge != null) {
+                visitedEdges.add(edge);
+                currentVertex = edge.getFrom().equals(currentVertex) ? edge.getTo() : edge.getFrom();
+                findEulerPathRecursive(currentVertex, visitedEdges);
+                currentVertex = edge.getFrom().equals(currentVertex) ? edge.getTo() : edge.getFrom();
+                visitedEdges.remove(edge);
+            }
+        }
+    }
+
+    private List<Edge> getEdges(Vertex<Integer> vertex){
+        return edges.get(vertices.indexOf(vertex));
     }
 
     private boolean eulerPathExists(Vertex<Integer> vertex) {
