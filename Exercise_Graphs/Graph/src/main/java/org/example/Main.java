@@ -8,24 +8,40 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws ExecutionControl.NotImplementedException {
 
-        AdjStruct struct = Graph.create(new File("src/main/resources/nikolaushouse.txt"));
+        AdjStruct struct = Graph.create(new File("src/main/resources/matrix.txt"));
 
-        Vertex<Integer> v = new Vertex<>("B", 0);
+        System.out.println();
 
-        List<Vertex<Integer>> neighbors = struct.getNeighbors(v);
+//        Vertex<Integer> v = new Vertex<>("B", 0);
+//
+//        List<Vertex<Integer>> neighbors = struct.getNeighbors(v);
+//        for (Vertex<Integer> neighbor : neighbors) {
+//            System.out.println(neighbor.getName());
+//        }
 
-        for (Vertex<Integer> neighbor : neighbors) {
-            System.out.println(neighbor.getName());
-        }
-
+        System.out.println("AdjMatrix:");
         struct.print();
+        System.out.println();
 
+
+        System.out.println("RecursiveDepthSearch:");
         struct.traversal(Traversal.RecursiveDepthSearch);
         System.out.println();
+        System.out.println("IterativeDepthSearch:");
         struct.traversal(Traversal.IterativeDepthSearch);
         System.out.println();
+        System.out.println("IterativeBreadthSearch:");
         struct.traversal(Traversal.IterativeBreadthSearch);
         System.out.println();
+        System.out.println("EulerPathSearch:");
         struct.traversal(Traversal.EulerPathSearch);
+
+        System.out.println();
+        System.out.println("MinSpanningTee with kruskal:");
+
+        List<Edge> edgeList = struct.findMinimumSpanningTree();
+        for (Edge edge : edgeList) {
+            System.out.println(edge.toString());
+        }
     }
 }

@@ -3,10 +3,11 @@ package org.example;
 import org.javatuples.Triplet;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AdjMatrix extends AdjStruct {
     private final List<Vertex<Integer>> vertices;
-    private final List<List<Edge>> edges;
+    private List<List<Edge>> edges;
     private List<Vertex<Integer>> closedListVertices;
     private int edgeCount = 0;
 
@@ -77,7 +78,7 @@ public class AdjMatrix extends AdjStruct {
             return;
         }
 
-        for (Edge edge : getEdges(currentVertex)) {
+        for (Edge edge : getEdgesFromVertex(currentVertex)) {
             if (!visitedEdges.contains(edge) && edge != null) {
                 visitedEdges.add(edge);
                 currentVertex = edge.getFrom().equals(currentVertex) ? edge.getTo() : edge.getFrom();
@@ -88,8 +89,70 @@ public class AdjMatrix extends AdjStruct {
         }
     }
 
-    private List<Edge> getEdges(Vertex<Integer> vertex) {
+    public List<Edge> findMinimumSpanningTree() {
+        LinkedList<Edge> edges = getAllEdges();
+        edges.sort((a, b) -> Float.compare(a.getWeight(), b.getWeight()));
+
+        // prepare sets
+        List<HashSet<Vertex<Integer>>> vertexSetList = new ArrayList<>();
+        for (Vertex<Integer> vertex : this.vertices) {
+            HashSet<Vertex<Integer>> hashSet = new HashSet<>();
+            hashSet.add(vertex);
+            vertexSetList.add(hashSet);
+        }
+
+        // iterate over all edges and mark the important ones
+        List<Edge> edgeList = new ArrayList<>();
+        while(!edges.isEmpty()) {
+            Edge edge = edges.removeFirst();
+
+            Vertex<Integer> from = edge.getFrom();
+            Vertex<Integer> to = edge.getTo();
+
+            for (HashSet<Vertex<Integer>> setToAdd : vertexSetList) {
+                if (setToAdd.contains(from)) {
+                    if (!setToAdd.contains(to)) {
+                        setToAdd.add(to);
+
+                        edgeList.add(edge);
+
+                        // search set from "to" Vertex and delete it
+                        final Iterator<HashSet<Vertex<Integer>>> setIteratorForDelete = vertexSetList.iterator();
+                        while (setIteratorForDelete.hasNext()) {
+                            HashSet<Vertex<Integer>> setToDelete = setIteratorForDelete.next();
+
+                            if (!setToAdd.equals(setToDelete) && setToDelete.contains(to)) {
+                                setIteratorForDelete.remove();
+                                break;
+                            }
+                        }
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return edgeList;
+    }
+
+    private List<Edge> getEdgesFromVertex(Vertex<Integer> vertex) {
         return edges.get(vertices.indexOf(vertex));
+    }
+
+    private LinkedList<Edge> getAllEdges() {
+        LinkedList<Edge> edges = new LinkedList<>();
+
+        for (List<Edge> edgeList : this.edges) {
+            edges.addAll(
+                    edgeList
+                            .stream()
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.toList())
+            );
+        }
+
+        return edges;
     }
 
     private boolean eulerPathExists(Vertex<Integer> vertex) {

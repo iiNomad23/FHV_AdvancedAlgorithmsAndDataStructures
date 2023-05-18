@@ -63,6 +63,10 @@ public class Graph extends AdjStruct {
         adjStruct.traversal(traversalMethod);
     }
 
+    public List<Edge> findMinimumSpanningTree() throws ExecutionControl.NotImplementedException {
+        return adjStruct.findMinimumSpanningTree();
+    }
+
     public List<Vertex<Integer>> getNeighbors(Vertex<Integer> vertex) throws ExecutionControl.NotImplementedException {
         return adjStruct.getNeighbors(vertex);
     }
