@@ -52,6 +52,6 @@ public class Main {
         System.out.println(struct.findMinimumSpanningTree_kruskal());
 
         WolfGame game = new WolfGame();
-        game.solve();
+        game.solve_deltawoolf();
     }
 }
