@@ -1,6 +1,7 @@
 package org.example;
 
 import jdk.jshell.spi.ExecutionControl;
+import org.example.games.farmerWolfChGoat.WolfGame;
 
 import java.io.File;
 import java.util.List;
@@ -49,5 +50,8 @@ public class Main {
         System.out.println(struct.findMinimumSpanningTree_prim());
 
         System.out.println(struct.findMinimumSpanningTree_kruskal());
+
+        WolfGame game = new WolfGame();
+        game.solve();
     }
 }
