@@ -89,7 +89,95 @@ public class AdjMatrix extends AdjStruct {
         }
     }
 
-    public List<Edge> findMinimumSpanningTree() {
+    /**
+     * Dijkstra
+     */
+    public HashMap<Vertex<Integer>, Vertex<Integer>> findSpanningTree(Vertex<Integer> start) {
+
+        List<Vertex<Integer>> unvisitedVertices = new ArrayList<>(this.vertices);
+        HashMap<Vertex<Integer>, Float> vertexValuesMap = new HashMap<>();
+        HashMap<Vertex<Integer>, Vertex<Integer>> spanningTreeMap = new HashMap<>();
+
+        for (Vertex<Integer> vertex : this.vertices) {
+            vertexValuesMap.put(vertex, Float.MAX_VALUE);
+        }
+
+        vertexValuesMap.put(start, 0f);
+
+        while (!unvisitedVertices.isEmpty()) {
+            Vertex<Integer> minValueVertex = getMinValueVertex(vertexValuesMap, unvisitedVertices);
+
+            unvisitedVertices.remove(minValueVertex);
+
+            List<Edge> edgeList = getEdgesFromVertex(minValueVertex);
+
+            for (Edge edge : edgeList) {
+                if (edge == null) {
+                    continue;
+                }
+
+                Float sumOfEdgeWeightAndMinVertex = vertexValuesMap.get(minValueVertex) + edge.getWeight();
+                Vertex<Integer> neighborVertex = edge.getTo();
+
+                if (unvisitedVertices.contains(neighborVertex) && sumOfEdgeWeightAndMinVertex < vertexValuesMap.get(neighborVertex)) {
+                    vertexValuesMap.put(neighborVertex, sumOfEdgeWeightAndMinVertex);
+                    spanningTreeMap.put(edge.getTo(), minValueVertex);
+                }
+            }
+        }
+
+        return spanningTreeMap;
+    }
+
+    /**
+     * Prim
+     */
+    public HashMap<Vertex<Integer>, Vertex<Integer>> findMinimumSpanningTree_prim() {
+
+        Vertex<Integer> start = findVertexWithLowestEdgeWeight();
+        if (start == null) {
+            System.out.println("WELL....");
+        }
+
+        List<Vertex<Integer>> unvisitedVertices = new ArrayList<>(this.vertices);
+
+        HashMap<Vertex<Integer>, Float> vertexValuesMap = new HashMap<>();
+        for (Vertex<Integer> vertex : this.vertices) {
+            vertexValuesMap.put(vertex, Float.MAX_VALUE);
+        }
+
+        vertexValuesMap.put(start, 0f);
+
+        HashMap<Vertex<Integer>, Vertex<Integer>> spanningTreeMap = new HashMap<>();
+
+        while (!unvisitedVertices.isEmpty()) {
+            Vertex<Integer> minValueVertex = getMinValueVertex(vertexValuesMap, unvisitedVertices);
+
+            unvisitedVertices.remove(minValueVertex);
+
+            List<Edge> edgeList = getEdgesFromVertex(minValueVertex);
+
+            for (Edge edge : edgeList) {
+                if (edge == null) {
+                    continue;
+                }
+
+                Vertex<Integer> neighborVertex = edge.getTo();
+
+                if (unvisitedVertices.contains(neighborVertex) && edge.getWeight() < vertexValuesMap.get(neighborVertex)) {
+                    vertexValuesMap.put(neighborVertex, edge.getWeight());
+                    spanningTreeMap.put(edge.getTo(), minValueVertex);
+                }
+            }
+        }
+
+        return spanningTreeMap;
+    }
+
+    /**
+     * Kruskal
+     */
+    public List<Edge> findMinimumSpanningTree_kruskal() {
         LinkedList<Edge> edges = getAllEdges();
         edges.sort((a, b) -> Float.compare(a.getWeight(), b.getWeight()));
 
@@ -103,29 +191,29 @@ public class AdjMatrix extends AdjStruct {
 
         // iterate over all edges and mark the important ones
         List<Edge> edgeList = new ArrayList<>();
-        while(!edges.isEmpty()) {
+        while (!edges.isEmpty()) {
             Edge edge = edges.removeFirst();
 
             Vertex<Integer> from = edge.getFrom();
             Vertex<Integer> to = edge.getTo();
 
-            for (HashSet<Vertex<Integer>> setToAdd : vertexSetList) {
-                if (setToAdd.contains(from)) {
-                    if (!setToAdd.contains(to)) {
-                        setToAdd.add(to);
+            for (HashSet<Vertex<Integer>> vertexSet : vertexSetList) {
+                if (vertexSet.contains(from)) {
+                    if (!vertexSet.contains(to)) {
 
-                        edgeList.add(edge);
-
-                        // search set from "to" Vertex and delete it
+                        // search vertexSet from "to", unify the two vertexSets and delete one
                         final Iterator<HashSet<Vertex<Integer>>> setIteratorForDelete = vertexSetList.iterator();
                         while (setIteratorForDelete.hasNext()) {
                             HashSet<Vertex<Integer>> setToDelete = setIteratorForDelete.next();
 
-                            if (!setToAdd.equals(setToDelete) && setToDelete.contains(to)) {
+                            if (!vertexSet.equals(setToDelete) && setToDelete.contains(to)) {
+                                vertexSet.addAll(setToDelete);
                                 setIteratorForDelete.remove();
                                 break;
                             }
                         }
+
+                        edgeList.add(edge);
                     }
 
                     break;
@@ -134,6 +222,28 @@ public class AdjMatrix extends AdjStruct {
         }
 
         return edgeList;
+    }
+
+    private Vertex<Integer> getMinValueVertex(HashMap<Vertex<Integer>, Float> vertexValues, List<Vertex<Integer>> unvisitedVertices) {
+
+        Float minValue = Float.MAX_VALUE;
+        Vertex<Integer> vertex = null;
+
+        for (Map.Entry<Vertex<Integer>, Float> entry : vertexValues.entrySet()) {
+            if (unvisitedVertices.contains(entry.getKey()) && entry.getValue() <= minValue) {
+                vertex = entry.getKey();
+                minValue = entry.getValue();
+            }
+        }
+
+        return vertex;
+    }
+
+    private Vertex<Integer> findVertexWithLowestEdgeWeight() {
+        LinkedList<Edge> edges = getAllEdges();
+        edges.sort((a, b) -> Float.compare(a.getWeight(), b.getWeight()));
+
+        return edges.get(0).getTo();
     }
 
     private List<Edge> getEdgesFromVertex(Vertex<Integer> vertex) {

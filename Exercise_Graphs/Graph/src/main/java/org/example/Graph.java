@@ -5,6 +5,7 @@ import org.javatuples.Triplet;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -63,8 +64,16 @@ public class Graph extends AdjStruct {
         adjStruct.traversal(traversalMethod);
     }
 
-    public List<Edge> findMinimumSpanningTree() throws ExecutionControl.NotImplementedException {
-        return adjStruct.findMinimumSpanningTree();
+    public HashMap<Vertex<Integer>, Vertex<Integer>> findSpanningTree(Vertex<Integer> start) throws ExecutionControl.NotImplementedException {
+        return adjStruct.findSpanningTree(start);
+    }
+
+    public HashMap<Vertex<Integer>, Vertex<Integer>> findMinimumSpanningTree_prim() throws ExecutionControl.NotImplementedException {
+        return adjStruct.findMinimumSpanningTree_prim();
+    }
+
+    public List<Edge> findMinimumSpanningTree_kruskal() throws ExecutionControl.NotImplementedException {
+        return adjStruct.findMinimumSpanningTree_kruskal();
     }
 
     public List<Vertex<Integer>> getNeighbors(Vertex<Integer> vertex) throws ExecutionControl.NotImplementedException {

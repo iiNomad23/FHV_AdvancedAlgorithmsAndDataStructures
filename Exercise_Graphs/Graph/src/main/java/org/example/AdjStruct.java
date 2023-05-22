@@ -2,7 +2,7 @@ package org.example;
 
 import jdk.jshell.spi.ExecutionControl;
 
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class AdjStruct {
@@ -14,7 +14,15 @@ public abstract class AdjStruct {
         throw new ExecutionControl.NotImplementedException("[AdjStruct] getNeighbors not implemented!");
     }
 
-    public List<Edge> findMinimumSpanningTree() throws ExecutionControl.NotImplementedException {
+    public HashMap<Vertex<Integer>, Vertex<Integer>> findSpanningTree(Vertex<Integer> start) throws ExecutionControl.NotImplementedException {
+        throw new ExecutionControl.NotImplementedException("[AdjStruct] findMinimumSpanningTree not implemented!");
+    }
+
+    public HashMap<Vertex<Integer>, Vertex<Integer>> findMinimumSpanningTree_prim() throws ExecutionControl.NotImplementedException {
+        throw new ExecutionControl.NotImplementedException("[AdjStruct] findMinimumSpanningTree not implemented!");
+    }
+
+    public List<Edge> findMinimumSpanningTree_kruskal() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("[AdjStruct] findMinimumSpanningTree not implemented!");
     }
 
