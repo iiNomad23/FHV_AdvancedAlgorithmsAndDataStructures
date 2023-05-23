@@ -1,5 +1,6 @@
 package org.example;
 
+import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
 import java.util.*;
@@ -340,6 +341,75 @@ public class AdjMatrix extends AdjStruct {
         }
     }
 
+    public void uniformCost(Vertex<Integer> start, Vertex<Integer> goal) {
+        List<Vertex<Integer>> closedListVertices = new ArrayList<>();
+
+        Queue<Pair<Vertex<Integer>, Edge>> openList = new PriorityQueue<>(new Comparator<Pair<Vertex<Integer>, Edge>>() {
+            @Override
+            public int compare(Pair<Vertex<Integer>, Edge> p1, Pair<Vertex<Integer>, Edge> p2) {
+                if (p1.getValue1().getWeight() > p2.getValue1().getWeight())
+                    return 1;
+                else if (p1.getValue1().getWeight() < p2.getValue1().getWeight())
+                    return -1;
+                return 0;
+            }
+        });
+
+
+        openList.add(new Pair<>(start, null));
+
+        while (!openList.isEmpty()) {
+            Vertex<Integer> currentVertex = openList.poll().getValue0();
+
+            if (!closedListVertices.contains((currentVertex))) {
+                if (currentVertex == goal) {
+                    return;
+                }
+                closedListVertices.add(currentVertex);
+
+                List<Pair<Vertex<Integer>, Edge>> neighbors = getNeighborPairs(currentVertex);
+                openList.addAll(neighbors);
+            }
+        }
+    }
+
+    public Vertex<Integer> uniformCost_2(Vertex<Integer> start, Vertex<Integer> goal) {
+        List<Vertex<Integer>> closedListVertices = new ArrayList<>();
+
+        PriorityQueue<Vertex<Integer>> openList = new PriorityQueue<>(new Comparator<Vertex<Integer>>() {
+            @Override
+            public int compare(Vertex<Integer> v1, Vertex<Integer> v2) {
+                if (v1.getValue() > v2.getValue())
+                    return 1;
+                else if (v1.getValue() < v2.getValue())
+                    return -1;
+                return 0;
+            }
+        });
+
+        openList.add(start);
+
+        while (!openList.isEmpty()) {
+            Vertex<Integer> current = openList.poll();
+            if (current.equals(goal)) {
+                return current;
+            }
+
+            if (!closedListVertices.contains(current)) {
+                closedListVertices.add(current);
+
+                for (Pair<Vertex<Integer>, Edge> neighbour : getNeighborPairs(current)) {
+                    Vertex<Integer> vertex = neighbour.getValue1().getTo();
+                    vertex.setValue(current.getValue() + (int) neighbour.getValue1().getWeight());
+
+                    openList.add(vertex);
+                }
+            }
+        }
+
+        return null;
+    }
+
     @Override
     public List<Vertex<Integer>> getNeighbors(Vertex<Integer> vertex) {
         List<Vertex<Integer>> neighbors = new LinkedList<>();
@@ -352,6 +422,17 @@ public class AdjMatrix extends AdjStruct {
         }
 
         return neighbors;
+    }
+
+    public List<Pair<Vertex<Integer>, Edge>> getNeighborPairs(Vertex<Integer> vertex) {
+        List<Pair<Vertex<Integer>, Edge>> neighborList = new ArrayList<>();
+        List<Edge> edgeList = edges.get(vertices.indexOf(vertex));
+        for (int i = 0; i < edgeList.size(); i++) {
+            if (edgeList.get(i) != null) {
+                neighborList.add(new Pair<>(vertices.get(i), edgeList.get(i)));
+            }
+        }
+        return neighborList;
     }
 
     @Override

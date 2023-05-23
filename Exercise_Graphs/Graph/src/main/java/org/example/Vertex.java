@@ -19,6 +19,10 @@ public class Vertex<T> {
         return value;
     }
 
+    public T setValue(T value) {
+        return value;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
