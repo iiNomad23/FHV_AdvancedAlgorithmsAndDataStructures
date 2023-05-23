@@ -82,9 +82,7 @@ public class AdjMatrix extends AdjStruct {
         for (Edge edge : getEdgesFromVertex(currentVertex)) {
             if (edge != null && !visitedEdges.contains(edge)) {
                 visitedEdges.add(edge);
-                currentVertex = edge.getFrom().equals(currentVertex) ? edge.getTo() : edge.getFrom();
-                findEulerPathRecursive(currentVertex, visitedEdges);
-                currentVertex = edge.getFrom().equals(currentVertex) ? edge.getTo() : edge.getFrom();
+                findEulerPathRecursive(edge.getTo(), visitedEdges);
                 visitedEdges.remove(edge);
             }
         }
@@ -347,10 +345,12 @@ public class AdjMatrix extends AdjStruct {
         Queue<Pair<Vertex<Integer>, Edge>> openList = new PriorityQueue<>(new Comparator<Pair<Vertex<Integer>, Edge>>() {
             @Override
             public int compare(Pair<Vertex<Integer>, Edge> p1, Pair<Vertex<Integer>, Edge> p2) {
-                if (p1.getValue1().getWeight() > p2.getValue1().getWeight())
+                if (p1.getValue1().getWeight() > p2.getValue1().getWeight()) {
                     return 1;
-                else if (p1.getValue1().getWeight() < p2.getValue1().getWeight())
+                } else if (p1.getValue1().getWeight() < p2.getValue1().getWeight()) {
                     return -1;
+                }
+
                 return 0;
             }
         });
@@ -360,11 +360,11 @@ public class AdjMatrix extends AdjStruct {
 
         while (!openList.isEmpty()) {
             Vertex<Integer> currentVertex = openList.poll().getValue0();
+            if (currentVertex == goal) {
+                return;
+            }
 
             if (!closedListVertices.contains((currentVertex))) {
-                if (currentVertex == goal) {
-                    return;
-                }
                 closedListVertices.add(currentVertex);
 
                 List<Pair<Vertex<Integer>, Edge>> neighbors = getNeighborPairs(currentVertex);
@@ -379,10 +379,12 @@ public class AdjMatrix extends AdjStruct {
         PriorityQueue<Vertex<Integer>> openList = new PriorityQueue<>(new Comparator<Vertex<Integer>>() {
             @Override
             public int compare(Vertex<Integer> v1, Vertex<Integer> v2) {
-                if (v1.getValue() > v2.getValue())
+                if (v1.getValue() > v2.getValue()) {
                     return 1;
-                else if (v1.getValue() < v2.getValue())
+                } else if (v1.getValue() < v2.getValue()) {
                     return -1;
+                }
+
                 return 0;
             }
         });
