@@ -130,13 +130,7 @@ public class PuzzleGameState {
         }
         puzzleFieldToCheck[2][2] = null;
 
-        for (int i = 0; i < gameState.puzzleField.length; i++) {
-            if (!Arrays.equals(gameState.puzzleField[i], puzzleFieldToCheck[i])) {
-                return false;
-            }
-        }
-
-        return true;
+        return Arrays.deepEquals(gameState.puzzleField, puzzleFieldToCheck);
     }
 
     @Override
@@ -144,13 +138,13 @@ public class PuzzleGameState {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PuzzleGameState gameState = (PuzzleGameState) o;
-        return Objects.equals(parentState, gameState.parentState) && Arrays.equals(puzzleField, gameState.puzzleField);
+        return Objects.equals(parentState, gameState.parentState) && Arrays.deepEquals(puzzleField, gameState.puzzleField);
     }
 
     @Override
     public int hashCode() {
         int result = Objects.hash(parentState);
-        result = 31 * result + Arrays.hashCode(puzzleField);
+        result = 31 * result + Arrays.deepHashCode(puzzleField);
         return result;
     }
 
@@ -158,7 +152,7 @@ public class PuzzleGameState {
     public String toString() {
 
         StringBuilder puzzleFieldStr = new StringBuilder();
-        for (Integer[] array: puzzleField) {
+        for (Integer[] array : puzzleField) {
             puzzleFieldStr.append(Arrays.toString(Arrays.stream(array).toArray()));
         }
 

@@ -79,7 +79,7 @@ public class AdjMatrix extends AdjStruct {
         }
 
         for (Edge edge : getEdgesFromVertex(currentVertex)) {
-            if (!visitedEdges.contains(edge) && edge != null) {
+            if (edge != null && !visitedEdges.contains(edge)) {
                 visitedEdges.add(edge);
                 currentVertex = edge.getFrom().equals(currentVertex) ? edge.getTo() : edge.getFrom();
                 findEulerPathRecursive(currentVertex, visitedEdges);

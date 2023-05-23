@@ -16,7 +16,7 @@ public class PuzzleGame {
         LinkedList<PuzzleGameState> openList = new LinkedList<>();
         openList.add(gameState);
 
-        while(!openList.isEmpty()) {
+        while (!openList.isEmpty()) {
             PuzzleGameState currentState = openList.removeFirst();
 
             System.out.println("currentState: " + currentState.toString());
