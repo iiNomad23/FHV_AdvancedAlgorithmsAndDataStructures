@@ -2,6 +2,7 @@ package org.example;
 
 import jdk.jshell.spi.ExecutionControl;
 import org.example.games.farmerWolfChGoat.WolfGame;
+import org.example.games.farmerWolfChGoat.Wolfgame_v2.WolfGame_2;
 import org.example.games.puzzle.PuzzleGame;
 
 import java.io.File;
@@ -45,15 +46,18 @@ public class Main {
 //        for (Edge edge : edgeList) {
 //            System.out.println(edge.toString());
 //        }
-
-        System.out.println(struct.findSpanningTree(v));
-
-        System.out.println(struct.findMinimumSpanningTree_prim());
-
-        System.out.println(struct.findMinimumSpanningTree_kruskal());
-
+//
+//        System.out.println(struct.findSpanningTree(v));
+//
+//        System.out.println(struct.findMinimumSpanningTree_prim());
+//
+//        System.out.println(struct.findMinimumSpanningTree_kruskal());
+//
 //        WolfGame wolfGame = new WolfGame();
 //        wolfGame.solve_deltawoolf();
+//
+//        WolfGame_2 wolfGame = new WolfGame_2();
+//        wolfGame.solve();
 
         PuzzleGame puzzleGame = new PuzzleGame();
         puzzleGame.solve();
