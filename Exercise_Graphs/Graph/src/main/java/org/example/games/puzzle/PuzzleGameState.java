@@ -157,13 +157,14 @@ public class PuzzleGameState {
     @Override
     public String toString() {
 
-//        for (Integer[] array: puzzleField)) {
-//
-//        }
+        StringBuilder puzzleFieldStr = new StringBuilder();
+        for (Integer[] array: puzzleField) {
+            puzzleFieldStr.append(Arrays.toString(Arrays.stream(array).toArray()));
+        }
 
         return "PuzzleGameState{" +
                 "parentState=" + parentState +
-                ", puzzleField=" + Arrays.toString(puzzleField) +
+                ", puzzleField=" + puzzleFieldStr +
                 '}';
     }
 }
