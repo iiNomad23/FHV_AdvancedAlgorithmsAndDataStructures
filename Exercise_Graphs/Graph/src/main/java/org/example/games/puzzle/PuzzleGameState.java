@@ -7,7 +7,6 @@ public class PuzzleGameState {
     private PuzzleGameState parentState;
     private final Integer[][] puzzleField;
     private Integer depth;
-//    private Integer starValue;
 
     public PuzzleGameState(PuzzleGameState parent) {
 
