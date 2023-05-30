@@ -1,10 +1,7 @@
 package org.example.games.puzzle;
 
-import org.example.Edge;
-import org.example.Vertex;
-import org.javatuples.Pair;
-
-import java.util.*;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 public class PuzzleGame {
 
