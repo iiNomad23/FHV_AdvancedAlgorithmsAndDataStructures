@@ -1,6 +1,7 @@
 package org.example.games.puzzle;
 
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 public class PuzzleGame {
@@ -9,8 +10,8 @@ public class PuzzleGame {
     }
 
     public void solve() {
-//        PuzzleGameState gameState = new PuzzleGameState(null);
-        PuzzleGameState gameState = PuzzleGameState.createRandomPuzzleStartState(15);
+        PuzzleGameState gameState = new PuzzleGameState(null);
+//        PuzzleGameState gameState = PuzzleGameState.createRandomPuzzleStartState(15);
 
         PriorityQueue<PuzzleGameState> openList = new PriorityQueue<>(Comparator.comparingInt(PuzzleGameState::calculateStarValue));
 //        LinkedList<PuzzleGameState> openList = new LinkedList<>();
