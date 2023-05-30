@@ -7,19 +7,17 @@ public class PuzzleGameState {
     private PuzzleGameState parentState;
     private final Integer[][] puzzleField;
     private Integer depth;
-    private Integer starValue;
+//    private Integer starValue;
 
     public PuzzleGameState(PuzzleGameState parent) {
 
         if (parent == null) {
 //            puzzleField = new Integer[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, null}};
             puzzleField = new Integer[][]{{5, 8, 2}, {1, 3, null}, {4, 7, 6}};
-
             depth = 0;
-            starValue = Integer.MAX_VALUE;
         } else {
-            depth = parent.depth++;
             puzzleField = PuzzleGameState.deepCopyIntMatrix(parent.puzzleField);
+            depth = parent.depth++;
         }
 
         parentState = parent;
@@ -36,13 +34,12 @@ public class PuzzleGameState {
 
         startState.parentState = null;
         startState.depth = 0;
-        startState.starValue = Integer.MAX_VALUE;
 
         return startState;
     }
 
-    public Integer getStarValue() {
-        return starValue;
+    public Integer calculateStarValue() {
+        return depth + calculateWrongPositionCnt();
     }
 
     public static Integer[][] deepCopyIntMatrix(Integer[][] input) {
@@ -65,9 +62,6 @@ public class PuzzleGameState {
             PuzzleGameState nextState = clonedState(direction);
 
             if (!nextState.hasCycles(nextState)) {
-
-                nextState.starValue = nextState.depth + nextState.calculateWrongPositionCnt();
-
                 puzzleGameStates.add(nextState);
             }
         }
