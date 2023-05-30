@@ -1,6 +1,10 @@
 package org.example.games.puzzle;
 
-import java.util.LinkedList;
+import org.example.Edge;
+import org.example.Vertex;
+import org.javatuples.Pair;
+
+import java.util.*;
 
 public class PuzzleGame {
 
@@ -9,19 +13,35 @@ public class PuzzleGame {
 
     public void solve() {
         PuzzleGameState gameState = new PuzzleGameState(null);
+//        PuzzleGameState gameState = PuzzleGameState.createRandomPuzzleStartState(15);
 
-        gameState.shift(Direction.UP);
-        gameState.shift(Direction.LEFT);
+        PriorityQueue<PuzzleGameState> openList = new PriorityQueue<>(new Comparator<PuzzleGameState>() {
+            @Override
+            public int compare(PuzzleGameState state1, PuzzleGameState state2) {
+                if (state1.getStarValue() > state2.getStarValue()) {
+                    return 1;
+                } else if (state1.getStarValue() < state2.getStarValue()) {
+                    return -1;
+                }
 
-        LinkedList<PuzzleGameState> openList = new LinkedList<>();
+                return 0;
+            }
+        });
+
+//        LinkedList<PuzzleGameState> openList = new LinkedList<>();
+
         openList.add(gameState);
 
-        while (!openList.isEmpty()) {
-            PuzzleGameState currentState = openList.removeFirst();
+        int testCnt = 0;
 
-            System.out.println("currentState: " + currentState.toString());
+        while (!openList.isEmpty()) {
+//            PuzzleGameState currentState = openList.removeFirst();
+            PuzzleGameState currentState = openList.poll();
+
+            testCnt++;
+
             if (PuzzleGameState.isTerminationState(currentState)) {
-                System.out.println("Puzzle solved!");
+                System.out.println("Puzzle solved in " + testCnt + " steps!");
                 break;
             }
 

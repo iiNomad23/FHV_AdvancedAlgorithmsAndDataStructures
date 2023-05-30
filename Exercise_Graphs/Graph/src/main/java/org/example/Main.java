@@ -11,17 +11,17 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws ExecutionControl.NotImplementedException {
 
-        AdjStruct struct = Graph.create(new File("src/main/resources/matrix.txt"));
-
         System.out.println();
 
-        Vertex<Integer> v = new Vertex<>("A", 0);
-
-        List<Vertex<Integer>> neighbors = struct.getNeighbors(v);
-        for (Vertex<Integer> neighbor : neighbors) {
-            System.out.println(neighbor.getName());
-        }
-
+//        AdjStruct struct = Graph.create(new File("src/main/resources/matrix.txt"));
+//
+//        Vertex<Integer> v = new Vertex<>("A", 0);
+//
+//        List<Vertex<Integer>> neighbors = struct.getNeighbors(v);
+//        for (Vertex<Integer> neighbor : neighbors) {
+//            System.out.println(neighbor.getName());
+//        }
+//
 //        System.out.println("AdjMatrix:");
 //        struct.print();
 //        System.out.println();
@@ -61,5 +61,7 @@ public class Main {
 
         PuzzleGame puzzleGame = new PuzzleGame();
         puzzleGame.solve();
+
+        System.out.println();
     }
 }
